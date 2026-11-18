@@ -38,7 +38,7 @@ Devanagari** — usually already present on Linux; `sudo pacman -S noto-fonts` o
 The code is a Python package under `src/reelsmith/`:
 
 ```
-OpenSourceClipping/
+ReelSmith/
 ├── src/reelsmith/
 │   ├── cli.py          The one command. Runs the whole pipeline. (was clipper.py)
 │   ├── interactive.py  The polished TUI menu (rich + questionary) + progress bars.

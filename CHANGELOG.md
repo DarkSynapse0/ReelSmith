@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to **OpenSourceClipping** are recorded here, in the order
+All notable changes to **ReelSmith** are recorded here, in the order
 we actually built them. This is a prototype, so versions are informal
 milestones rather than strict releases. All of the versions below were built in
 the same session on **2026-11-12**.

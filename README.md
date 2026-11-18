@@ -20,7 +20,7 @@ like Opus Clip, but open, local, and easy to modify.
 The code lives in a package under `src/reelsmith/`:
 
 ```
-OpenSourceClipping/
+ReelSmith/
 ├── src/reelsmith/      ← all the code (the package)
 │   ├── cli.py             ← the one command: runs the whole pipeline
 │   ├── interactive.py     ← the step-by-step menu (no flags to memorise)

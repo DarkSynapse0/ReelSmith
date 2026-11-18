@@ -90,7 +90,7 @@ Either way the same building-block modules (`download`, `transcribe`, `moments`,
 ## Project layout
 
 ```
-OpenSourceClipping/
+ReelSmith/
 ├── src/reelsmith/        ← the package (all the code)
 │   ├── cli.py               ← the one command (formerly clipper.py)
 │   ├── interactive.py       ← the polished TUI menu (rich + questionary)
