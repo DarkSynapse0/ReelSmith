@@ -1,6 +1,6 @@
 # Documentation Index
 
-All the documentation for **OpenSourceClipping** in one place. Start wherever
+All the documentation for **ReelSmith** in one place. Start wherever
 fits your need:
 
 ## Start here

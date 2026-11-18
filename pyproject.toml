@@ -18,7 +18,7 @@ description = "ReelSmith — forge short-form vertical reels from any video, loc
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
-authors = [{ name = "OpenSourceClipping" }]
+authors = [{ name = "ReelSmith" }]
 keywords = ["video", "clips", "shorts", "captions", "whisper", "nepali", "ffmpeg"]
 
 # The Python libraries the tool needs. FFmpeg is a separate system program
