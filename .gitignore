@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environment
+venv/
+.venv/
+
+# The tool's output and downloads (generated, not source)
+clips/
+output/
+*_clips/
+downloaded_clips/
+
+# Test / sample media that may be large (keep samples/README.md)
+samples/*.mp4
+samples/*.mkv
+samples/*.webm
+samples/*.wav
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+
+# Reference material (your own videos/notes — keep README, ignore media)
+references/**/*.mp4
+references/**/*.mkv
+references/**/*.webm
+references/**/*.mov
+references/**/*.m4v
+
+# Loose media / generated output in the repo root
+/*.mp4
+/*.webm
+/*.mkv
+
+# Validation artifacts generated during testing
+test_results/

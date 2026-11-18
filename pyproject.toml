@@ -1,0 +1,46 @@
+# pyproject.toml
+# ---------------
+# This file describes the project to Python's packaging tools. It is what
+# makes the tool installable with `pip install -e .` and gives you the
+# `videoclipper` command.
+#
+# "-e" means "editable install": the command points at your source files,
+# so any edit you make takes effect immediately with no reinstall.
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "videoclipper"
+version = "1.0.0"
+description = "Turn long videos into short vertical clips with burned-in captions. Free, local, Nepali-friendly."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "OpenSourceClipping" }]
+keywords = ["video", "clips", "shorts", "captions", "whisper", "nepali", "ffmpeg"]
+
+# The Python libraries the tool needs. FFmpeg is a separate system program
+# (see the README), not a pip package, so it is not listed here.
+dependencies = [
+    "faster-whisper>=1.0.0",
+    "yt-dlp>=2024.1.0",
+    "opencv-python-headless>=4.9.0",
+    "rich>=13.0.0",
+    "questionary>=2.0.0",
+]
+
+# This line creates the `videoclipper` terminal command. It points at the
+# main() function inside videoclipper/cli.py.
+[project.scripts]
+videoclipper = "videoclipper.cli:main"
+
+# Tell setuptools that the package lives under the src/ folder.
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Include the bundled face-detection model file inside the package so it
+# ships with an install (it is not Python code, so it must be listed here).
+[tool.setuptools.package-data]
+videoclipper = ["models/*.onnx"]

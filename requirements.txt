@@ -1,0 +1,21 @@
+# Python dependencies for the video clipping tool.
+# Install with:  pip install -r requirements.txt
+#
+# faster-whisper  -> speech-to-text with word-level timestamps (runs locally).
+# It automatically pulls in ctranslate2 (the engine that runs the model)
+# and will download the actual Whisper model files on first use.
+
+faster-whisper>=1.0.0
+
+# yt-dlp -> download videos from a URL (YouTube, Shorts, Reels, and more).
+# Free and open source, runs locally, no account or API key needed.
+yt-dlp>=2024.1.0
+
+# opencv -> face detection for the speaker-tracking vertical mode (--vertical track).
+# "headless" = no GUI libraries, which is all a command-line tool needs.
+opencv-python-headless>=4.9.0
+
+# rich + questionary -> the polished interactive menu (boxes, colours,
+# arrow-key option lists, and progress bars). Both free and open source.
+rich>=13.0.0
+questionary>=2.0.0
