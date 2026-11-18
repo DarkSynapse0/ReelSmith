@@ -5,14 +5,14 @@ Let the user paste a video URL (YouTube, Shorts, Reels, …) and have the tool
 download it automatically, then run the normal pipeline — no manual file needed.
 
 ## What was built
-- `src/videoclipper/download.py` using **yt-dlp** (free, open source, local — no account or API
+- `src/reelsmith/download.py` using **yt-dlp** (free, open source, local — no account or API
   key):
   - `is_url(text)` — treats input starting with `http://`/`https://` as a URL.
   - `download_video(url, output_dir)` — runs yt-dlp as
     `python -m yt_dlp ...` (so it always uses this venv), downloads best MP4
     video + audio **capped at 1080p**, merges to `source.mp4`, shows progress,
     and returns the file path.
-- `src/videoclipper/cli.py` gained a **Step 0: Download** stage. Its `video` argument now
+- `src/reelsmith/cli.py` gained a **Step 0: Download** stage. Its `video` argument now
   accepts a local path **or** a URL; URLs are downloaded into `work/` first.
 - `requirements.txt` gained `yt-dlp`; README updated with URL examples.
 
@@ -29,7 +29,7 @@ Clear message for a bad/private/age-restricted/removed link or no internet.
 Ran the full pipeline with **only a URL** (no local file): the first-ever
 YouTube video, `"Me at the zoo"`:
 ```
-videoclipper "https://www.youtube.com/watch?v=jNQXAC9IVRw" --language en --model tiny --clips 1
+reelsmith "https://www.youtube.com/watch?v=jNQXAC9IVRw" --language en --model tiny --clips 1
 ```
 
 ## Result / what worked

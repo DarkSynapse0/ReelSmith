@@ -18,14 +18,14 @@ python3 -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 
 # Install the tool in editable mode. This reads pyproject.toml, pulls in the
-# dependencies, and creates the `videoclipper` command. "-e" (editable) means
+# dependencies, and creates the `reelsmith` command. "-e" (editable) means
 # any code change you make takes effect immediately, with no reinstall.
 pip install -e .
 ```
 
 (If you only want the libraries without installing the command, `pip install
 -r requirements.txt` still works — but `pip install -e .` is the recommended
-way, since it gives you the `videoclipper` command used throughout these docs.)
+way, since it gives you the `reelsmith` command used throughout these docs.)
 
 For Nepali captions, make sure a Devanagari font is installed (e.g. **Noto Sans
 Devanagari** — usually already present on Linux; `sudo pacman -S noto-fonts` or
@@ -35,11 +35,11 @@ Devanagari** — usually already present on Linux; `sudo pacman -S noto-fonts` o
 
 ## 2. Project layout
 
-The code is a Python package under `src/videoclipper/`:
+The code is a Python package under `src/reelsmith/`:
 
 ```
 OpenSourceClipping/
-├── src/videoclipper/
+├── src/reelsmith/
 │   ├── cli.py          The one command. Runs the whole pipeline. (was clipper.py)
 │   ├── interactive.py  The polished TUI menu (rich + questionary) + progress bars.
 │   ├── download.py     Downloads a video from a URL (yt-dlp).
@@ -51,13 +51,13 @@ OpenSourceClipping/
 │   ├── captions.py     Build the ASS caption file; caption styling lives here.
 │   ├── utils.py        Shared helpers (friendly errors, FFmpeg, time, QUIET flag).
 │   ├── models/         Bundled YuNet face model (face_detection_yunet.onnx).
-│   ├── __main__.py     Enables `python -m videoclipper`.
+│   ├── __main__.py     Enables `python -m reelsmith`.
 │   └── __init__.py     Marks the folder as a package (holds the version).
 ├── tests/              Quick tests that don't need a video (test_basic.py).
 ├── docs/               This documentation.
 ├── samples/            Put test videos here (ignored by git).
 ├── clips/              Generated output — one folder per video (ignored by git).
-├── pyproject.toml      Makes it installable; defines the `videoclipper` command.
+├── pyproject.toml      Makes it installable; defines the `reelsmith` command.
 ├── requirements.txt    The libraries (faster-whisper, yt-dlp, opencv, rich, questionary).
 └── README.md  LICENSE  CHANGELOG.md  ROADMAP.md  PROGRESS.md
 ```
@@ -70,13 +70,13 @@ Deeper explanations: [ARCHITECTURE.md](ARCHITECTURE.md) and `docs/`.
 
 ```bash
 # From a local file
-videoclipper my_video.mp4 --language en --clips 3
+reelsmith my_video.mp4 --language en --clips 3
 
 # From a URL
-videoclipper "https://www.youtube.com/watch?v=XXXX" --language en
+reelsmith "https://www.youtube.com/watch?v=XXXX" --language en
 
 # Fast iteration while developing: use a tiny model and few clips
-videoclipper my_video.mp4 --model tiny --clips 1
+reelsmith my_video.mp4 --model tiny --clips 1
 ```
 
 Tip: during development, add `--keep-intermediate` to inspect the `work/` files
@@ -84,7 +84,7 @@ Tip: during development, add `--keep-intermediate` to inspect the `work/` files
 
 You can also run a single stage on its own, e.g.:
 ```bash
-python -m videoclipper.transcribe my_video.mp4 --language ne --model small
+python -m reelsmith.transcribe my_video.mp4 --language ne --model small
 ```
 
 ---
@@ -92,7 +92,7 @@ python -m videoclipper.transcribe my_video.mp4 --language ne --model small
 ## 4. Common tasks
 
 ### Add a new caption style
-Caption look-and-feel lives in `src/videoclipper/captions.py`.
+Caption look-and-feel lives in `src/reelsmith/captions.py`.
 
 1. Add a new event-builder function next to `_events_classic` and
    `_events_bigword`, e.g. `_events_karaoke(clip_words, timings, style)`. It
@@ -102,32 +102,32 @@ Caption look-and-feel lives in `src/videoclipper/captions.py`.
    elif animation == "karaoke":
        lines += _events_karaoke(clip_words, timings, style)
    ```
-3. In `src/videoclipper/cli.py`, add your style name to the `--caption-style` `choices`.
+3. In `src/reelsmith/cli.py`, add your style name to the `--caption-style` `choices`.
 
 ASS animation reference used so far: `\t` (animate over time), `\fscx`/`\fscy`
 (scale %), `\pos`/`\an` (position/anchor), `\1c` (text color), `\fad` (fade).
 
 ### Change how captions look (no new style)
-Edit the `CAPTION_STYLE` dict at the top of `src/videoclipper/captions.py`: `font`, `font_size`,
+Edit the `CAPTION_STYLE` dict at the top of `src/reelsmith/captions.py`: `font`, `font_size`,
 `highlight_color`, `margin_vertical`, `words_per_line`, etc. Use the `rgb(r,g,b)`
 helper for colors.
 
 ### Swap in smarter moment-picking
-`src/videoclipper/scoring.py` is **deliberately swappable**. Keep the same contract:
+`src/reelsmith/scoring.py` is **deliberately swappable**. Keep the same contract:
 ```python
 def score_segment(segment) -> (total_score: float, breakdown: dict):
     ...
 ```
 `segment` has `start`, `end`, `text`, and `words` (each word with `start`/`end`).
-As long as you return a number and a dict, `src/videoclipper/moments.py` needs no changes. You
+As long as you return a number and a dict, `src/reelsmith/moments.py` needs no changes. You
 could replace the heuristics with a local LLM call (e.g. Ollama) here.
 
 ### Tune which clips get picked (without rewriting scoring)
-Edit the `WEIGHTS` dict in `src/videoclipper/scoring.py`, or extend the word lists
+Edit the `WEIGHTS` dict in `src/reelsmith/scoring.py`, or extend the word lists
 (`EMPHATIC_WORDS`, `EMPHATIC_DEVANAGARI`, `QUESTION_DEVANAGARI`, …).
 
 ### Add a command-line option
-Options are defined in `main()` in `src/videoclipper/cli.py` with `argparse`. Add the
+Options are defined in `main()` in `src/reelsmith/cli.py` with `argparse`. Add the
 `add_argument(...)`, then pass it through to `run(...)`.
 
 ---
@@ -143,9 +143,9 @@ This codebase intentionally favors clarity over cleverness:
 - **Friendly errors** — never dump a raw traceback at the user. Use
   `utils.fail("plain-language message")` for anything a user could hit (missing
   file, missing FFmpeg, bad URL). Use `utils.info()` / `utils.ok()` for progress.
-- **Keep FFmpeg in `src/videoclipper/video.py`** and run commands via `utils.run_ffmpeg()` so
+- **Keep FFmpeg in `src/reelsmith/video.py`** and run commands via `utils.run_ffmpeg()` so
   errors are handled consistently.
-- **One job per module** — don't mix, say, scoring logic into `src/videoclipper/moments.py`.
+- **One job per module** — don't mix, say, scoring logic into `src/reelsmith/moments.py`.
 - **Preserve Unicode** — write JSON with `ensure_ascii=False` so Devanagari
   stays intact.
 

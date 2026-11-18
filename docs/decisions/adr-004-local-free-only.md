@@ -19,7 +19,7 @@ Concrete choices that follow from this:
 | Speech-to-text | **faster-whisper** (runs on CPU) |
 | Cut / crop / caption rendering | **FFmpeg** |
 | Download from URL | **yt-dlp** |
-| Moment-picking | **local heuristics** (`src/videoclipper/scoring.py`) |
+| Moment-picking | **local heuristics** (`src/reelsmith/scoring.py`) |
 | Captions font (Nepali) | **Noto Sans Devanagari** (already on system) |
 
 ## Rationale

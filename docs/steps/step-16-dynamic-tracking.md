@@ -30,7 +30,7 @@ or the shot changed within the clip — the person got **cut off** (reported as
   is no longer used by `track`.
 
 ### 2. Face diagnostic
-`python -m videoclipper.reframe "<video.mp4>"` (→ `reframe.diagnose()`) reports
+`python -m reelsmith.reframe "<video.mp4>"` (→ `reframe.diagnose()`) reports
 what the detector actually sees: frames checked, **% with a face**, face x
 min/median/max and **horizontal spread**, the number of **big jumps** (≈ cuts),
 and a plain-language **verdict** (few faces → use `crop`/`blur`; moves a lot →

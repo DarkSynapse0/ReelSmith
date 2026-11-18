@@ -23,7 +23,7 @@ clips/
     └── …
 ```
 
-- New helpers in **`src/videoclipper/download.py`**:
+- New helpers in **`src/reelsmith/download.py`**:
   - **`CLIPS_ROOT = "clips"`** — the single parent folder for all output.
   - **`_sanitize_name(name)`** — makes a safe folder name (removes illegal
     characters, turns spaces into underscores, caps the length ~60).

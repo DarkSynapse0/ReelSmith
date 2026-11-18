@@ -1,6 +1,6 @@
 # Step 17 — Caching downloads & transcripts
 
-**Version:** 1.4.0 · **Module:** `src/videoclipper/cache.py`
+**Version:** 1.4.0 · **Module:** `src/reelsmith/cache.py`
 
 ## Goal
 Stop re-doing the two slowest steps when the same video is processed more than

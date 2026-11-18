@@ -8,7 +8,7 @@ the Hindi gets mangled into Latin. This step keeps **each part in its own
 language** instead.
 
 ## What was built
-- **`src/videoclipper/transcribe.py`** gained a mixed-language path built on a
+- **`src/reelsmith/transcribe.py`** gained a mixed-language path built on a
   **VAD-split → per-utterance auto-detect → stitch** idea:
   - **`_speech_chunks(audio)`** — splits the audio into utterances using
     faster-whisper's voice-activity detector (`get_speech_timestamps`) with tuned
@@ -39,7 +39,7 @@ language** instead.
    (0:00 → 0:02 → 0:11 → 0:14). Segments carried **different** language tags,
    proving the per-utterance switching works.
 3. **Full pipeline + regression.** A full run via
-   `videoclipper … --language mixed` produced a valid **1080×1920** clip, and the
+   `reelsmith … --language mixed` produced a valid **1080×1920** clip, and the
    3 unit tests still pass.
 
 ### Honest caveat about the test

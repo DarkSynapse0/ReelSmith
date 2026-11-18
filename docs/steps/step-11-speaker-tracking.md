@@ -6,7 +6,7 @@ frame, so a person standing off to one side gets chopped out of the vertical
 clip. This step makes the crop **find the speaker's face and center on them**.
 
 ## What was built
-- **`src/videoclipper/reframe.py`** — the face-tracking logic:
+- **`src/reelsmith/reframe.py`** — the face-tracking logic:
   - Opens the clip with OpenCV and samples **~3 frames per second** (not every
     frame — that would be slow and unnecessary).
   - On each sampled frame, runs OpenCV 5's **YuNet** face detector
@@ -17,7 +17,7 @@ clip. This step makes the crop **find the speaker's face and center on them**.
   - Computes a **9:16 crop box** centered on that position, clamped so it never
     runs off the edge of the frame. Returns `None` if no face is found.
   - Key functions: `compute_crop_box()`, `_detect_face_centers()`.
-- **Bundled model** `src/videoclipper/models/face_detection_yunet.onnx`
+- **Bundled model** `src/reelsmith/models/face_detection_yunet.onnx`
   (~232 KB, from the OpenCV Zoo) — committed into the package, so there is **no
   runtime download** and it works offline. `pyproject.toml` ships it via
   `[tool.setuptools.package-data]`.
@@ -45,7 +45,7 @@ clip. This step makes the crop **find the speaker's face and center on them**.
    1080×1920 clip.
 3. **Regression + integration.** The 3 unit tests still pass. A full pipeline
    run via the installed command
-   `videoclipper … --vertical track` transcribed, found a face in **42/42**
+   `reelsmith … --vertical track` transcribed, found a face in **42/42**
    checked frames, cropped around the speaker, burned captions, and output a
    1080×1920 clip.
 

@@ -63,7 +63,7 @@ vertical (9:16) clips** with **burned-in, word-by-word captions**, picking the
 
 `cli.py` (Step 7) is the conductor that calls everything above in order. In the
 diagram above, each labelled module (`download.py`, `transcribe.py`, …) lives
-inside the package folder `src/videoclipper/` — the short names are used as
+inside the package folder `src/reelsmith/` — the short names are used as
 labels to keep the boxes readable.
 
 `cache.py` sits beside the download and transcribe steps: before downloading or
@@ -73,9 +73,9 @@ saved language + model match). `--no-cache` bypasses it.
 
 There are **two front-ends** that feed this pipeline:
 
-- **Flags** — `videoclipper my_video.mp4 --language ne …` (parsed by `cli.main`),
+- **Flags** — `reelsmith my_video.mp4 --language ne …` (parsed by `cli.main`),
   which calls `cli.run(...)`.
-- **Interactive TUI** — `videoclipper` with no video (or `-i`) launches
+- **Interactive TUI** — `reelsmith` with no video (or `-i`) launches
   `interactive.launch()`. In a real terminal it shows a **rich + questionary**
   menu (banner, arrow-key option lists, a job-configuration panel) and then runs
   the pipeline with **staged progress bars** via `interactive.run_with_progress()`.
@@ -91,10 +91,10 @@ Either way the same building-block modules (`download`, `transcribe`, `moments`,
 
 ```
 OpenSourceClipping/
-├── src/videoclipper/        ← the package (all the code)
+├── src/reelsmith/        ← the package (all the code)
 │   ├── cli.py               ← the one command (formerly clipper.py)
 │   ├── interactive.py       ← the polished TUI menu (rich + questionary)
-│   ├── __main__.py          ← enables `python -m videoclipper`
+│   ├── __main__.py          ← enables `python -m reelsmith`
 │   ├── __init__.py          ← package marker + version
 │   ├── download.py  transcribe.py  moments.py  scoring.py
 │   ├── video.py  captions.py  reframe.py  utils.py
@@ -103,13 +103,13 @@ OpenSourceClipping/
 ├── docs/                    ← this documentation
 ├── samples/                 ← test inputs (git-ignored)
 ├── clips/                   ← generated output, one folder per video (git-ignored)
-├── pyproject.toml           ← installable; defines the `videoclipper` command
+├── pyproject.toml           ← installable; defines the `reelsmith` command
 ├── requirements.txt
 └── README.md  LICENSE  CHANGELOG.md  ROADMAP.md  PROGRESS.md
 ```
 
-Run it with the installed command `videoclipper ...` or equivalently
-`python -m videoclipper ...` (after `pip install -e .`).
+Run it with the installed command `reelsmith ...` or equivalently
+`python -m reelsmith ...` (after `pip install -e .`).
 
 ### External dependencies
 
@@ -128,7 +128,7 @@ FFmpeg/ffprobe are separate **system** programs (not pip packages).
 
 ## The modules
 
-All modules live in `src/videoclipper/`.
+All modules live in `src/reelsmith/`.
 
 | File | Role | Key functions |
 |------|------|---------------|

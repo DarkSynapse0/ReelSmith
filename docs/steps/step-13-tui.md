@@ -8,7 +8,7 @@ panel, and clean **progress bars** while it works — the kind of experience you
 expect from a real product. This is the **1.0 milestone**.
 
 ## What was built
-- Rewrote **`src/videoclipper/interactive.py`** around two small, free,
+- Rewrote **`src/reelsmith/interactive.py`** around two small, free,
   open-source libraries:
   - **rich** — the rounded **banner**, the **📋 JOB CONFIGURATION** panel, a
     final **results panel** (each clip's time + score), and the **staged
@@ -31,7 +31,7 @@ expect from a real product. This is the **1.0 milestone**.
 - **`download.download_video(url, dir, quiet=False)`** gained a `quiet` option
   (adds `-q --no-warnings` and captures output) so yt-dlp's text doesn't break
   the bars.
-- **`src/videoclipper/cli.py`:** the no-video / `-i` path now just calls
+- **`src/reelsmith/cli.py`:** the no-video / `-i` path now just calls
   `interactive.launch()`.
 - **Version bumped to 1.0.0** (`__init__.py`, `pyproject.toml`). Added
   dependencies **`rich>=13.0.0`** and **`questionary>=2.0.0`**.
@@ -43,9 +43,9 @@ expect from a real product. This is the **1.0 milestone**.
    (transcribe / find / render) with percentage + elapsed-time bars, printed the
    results panel (`clip_01.mp4`, its time range, **score 5.033**), and produced a
    **1080×1920** clip.
-3. **Non-TTY fallback.** Piping answers into `videoclipper` (no real terminal)
+3. **Non-TTY fallback.** Piping answers into `reelsmith` (no real terminal)
    correctly dropped to "simple mode" and still produced a clip.
-4. **Regression.** The 3 unit tests still pass and `videoclipper --help` still
+4. **Regression.** The 3 unit tests still pass and `reelsmith --help` still
    works.
 
 **Caveat:** the **live arrow-key questionary menu** itself can't be auto-tested
@@ -54,7 +54,7 @@ run. The rendering, the progress pipeline, and the plain fallback were all
 verified; the arrow-key selection uses standard, well-tested questionary prompts.
 
 ## Result / what worked
-Running `videoclipper` with no arguments now gives a genuinely pleasant,
+Running `reelsmith` with no arguments now gives a genuinely pleasant,
 product-like TUI — a banner, arrow-key menus, a configuration summary, and live
 progress — while remaining 100% free and local. It gracefully degrades to plain
 prompts anywhere a real terminal isn't available. ✅

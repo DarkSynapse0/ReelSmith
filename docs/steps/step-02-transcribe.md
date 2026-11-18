@@ -5,13 +5,13 @@ Turn a video's speech into text **with word-level timestamps**, and save it in
 useful formats.
 
 ## What was built
-- `src/videoclipper/utils.py` — shared helpers used by every later step:
+- `src/reelsmith/utils.py` — shared helpers used by every later step:
   - `fail()` / `info()` / `ok()` — friendly messages (no scary tracebacks).
   - `check_ffmpeg()`, `check_file_exists()` — up-front checks with clear errors.
   - `run_ffmpeg()` — runs FFmpeg, hides its noise unless it fails.
   - `ffprobe_duration()` — media length in seconds.
   - `seconds_to_timestamp()` — formats time for SRT (`,`) and ASS (`.`).
-- `src/videoclipper/transcribe.py` — the transcription pipeline:
+- `src/reelsmith/transcribe.py` — the transcription pipeline:
   1. `extract_audio()` — FFmpeg → **16 kHz mono WAV** (what Whisper expects).
   2. `load_wav_as_array()` — read that WAV into a NumPy float array ourselves.
   3. `transcribe_audio()` — faster-whisper with `word_timestamps=True` and
@@ -42,7 +42,7 @@ dependency. Full rationale: `docs/decisions/adr-001-read-wav-ourselves.md`.
 ## How it was tested
 Generated a 14-second spoken sample video (via `espeak-ng` + FFmpeg) and ran:
 ```
-python -m videoclipper.transcribe sample.mp4 --language en --model tiny
+python -m reelsmith.transcribe sample.mp4 --language en --model tiny
 ```
 
 ## Result / what worked

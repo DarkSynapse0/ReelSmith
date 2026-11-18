@@ -21,7 +21,7 @@ We need captions that:
    it via the `ass` filter.
 
 ## Decision
-Use **ASS**. `src/videoclipper/captions.py` writes an ASS file; `video.burn_captions()` renders
+Use **ASS**. `src/reelsmith/captions.py` writes an ASS file; `video.burn_captions()` renders
 it with FFmpeg's `ass` filter.
 
 ## Rationale
@@ -37,6 +37,6 @@ it with FFmpeg's `ass` filter.
 - ✅ New styles are just new event-builder functions (see `_events_bigword`).
 - ⚠️ ASS has its own quirks: time format is `H:MM:SS.cc` (two-decimal
   centiseconds), colors are `&HAABBGGRR`, and `{`/`}` are special (we escape
-  stray ones). These are handled in `src/videoclipper/captions.py`.
+  stray ones). These are handled in `src/reelsmith/captions.py`.
 - ⚠️ **Color emoji** don't render well in libass — any emoji/sticker effect
   would need an image-overlay approach instead (noted in `ROADMAP.md`).

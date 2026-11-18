@@ -1,22 +1,27 @@
-# Open Source Clipping — a free, local video-to-shorts tool
+# 🎬 ReelSmith — forge short-form reels from any video, on your own machine
 
-Turn one long video into several short **vertical (9:16)** clips with **burned-in,
-word-by-word captions**. Everything runs **locally and free** on your own
-computer — no paid APIs, no uploads. Works with **Nepali** (and many other
-languages).
+**ReelSmith** turns a long video (or a YouTube / Reels / Shorts link) into
+short, ready-to-post **vertical 9:16 clips** with accurate, **burned-in
+word-by-word captions** — it finds the best moments, follows the speaker's
+face, and styles captions like the top creators.
 
-It is a command-line prototype, in the spirit of tools like Opus Clip, built
-to be simple and easy to modify.
+It's **free and fully offline** — no paid APIs, no sign-ups, no uploads;
+everything runs locally on your computer. And it's genuinely **fluent in
+Nepali** (with a dedicated Nepali speech model) as well as English, Hindi, and
+more — including mixed Nepali+English speech.
+
+A friendly command-line tool (with an interactive menu), in the spirit of tools
+like Opus Clip, but open, local, and easy to modify.
 
 ---
 
 ## Project layout
 
-The code lives in a package under `src/videoclipper/`:
+The code lives in a package under `src/reelsmith/`:
 
 ```
 OpenSourceClipping/
-├── src/videoclipper/      ← all the code (the package)
+├── src/reelsmith/      ← all the code (the package)
 │   ├── cli.py             ← the one command: runs the whole pipeline
 │   ├── interactive.py     ← the step-by-step menu (no flags to memorise)
 │   ├── download.py        ← download a video from a URL (yt-dlp)
@@ -28,7 +33,7 @@ OpenSourceClipping/
 │   ├── captions.py        ← builds the ASS subtitles (all caption styling)
 │   ├── utils.py           ← shared helpers (friendly errors, FFmpeg checks)
 │   ├── models/            ← bundled face-detection model (YuNet .onnx)
-│   ├── __main__.py        ← lets you run `python -m videoclipper`
+│   ├── __main__.py        ← lets you run `python -m reelsmith`
 │   └── __init__.py
 ├── tests/                 ← quick tests that don't need a video
 ├── docs/                  ← full documentation (see docs/README.md)
@@ -66,12 +71,12 @@ python3 -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 
 # 3. Install the tool (this reads pyproject.toml and creates the
-#    `videoclipper` command). The -e means "editable", so any code change
+#    `reelsmith` command). The -e means "editable", so any code change
 #    you make takes effect immediately with no reinstall.
 pip install -e .
 ```
 
-That last step gives you a `videoclipper` command to use below.
+That last step gives you a `reelsmith` command to use below.
 
 For **Nepali captions** you also need a Devanagari font. Most Linux systems
 already have **Noto Sans Devanagari**. If captions show empty boxes, install it:
@@ -88,7 +93,7 @@ already have **Noto Sans Devanagari**. If captions show empty boxes, install it:
 Don't want to remember any flags? Just run the command with nothing after it:
 
 ```bash
-videoclipper
+reelsmith
 ```
 
 You get a polished menu: a title banner, **arrow-key option lists** (↑/↓ then
@@ -96,7 +101,7 @@ Enter), a job-configuration summary, and clean **progress bars** for each stage.
 
 ```
 ╭──────────────────────────────────────────────────────────────────╮
-│  🎬  VIDEOCLIPPER v1.0  •  AI-Powered Vertical Clip Generator     │
+│  🎬  REELSMITH v1.0  •  AI-Powered Vertical Clip Generator     │
 ╰──────────────────────────────────────────────────────────────────╯
 
   ? Speech language:
@@ -116,25 +121,25 @@ prompts.)
 
 ```bash
 # Simplest: auto-detect language, make 5 clips
-videoclipper my_video.mp4
+reelsmith my_video.mp4
 
 # Straight from a URL — YouTube, Shorts, Reels, etc. (downloads it first)
-videoclipper "https://www.youtube.com/watch?v=XXXXXXXXXXX" --language en
+reelsmith "https://www.youtube.com/watch?v=XXXXXXXXXXX" --language en
 
 # Nepali, 5 clips (the main example)
-videoclipper my_video.mp4 --language ne --clips 5
+reelsmith my_video.mp4 --language ne --clips 5
 
 # Nepali — automatically uses the Nepali fine-tuned model (best accuracy)
-videoclipper my_video.mp4 --language ne --clips 5
+reelsmith my_video.mp4 --language ne --clips 5
 
 # Or force a bigger general model (slower)
-videoclipper my_video.mp4 --language ne --model medium --clips 5
+reelsmith my_video.mp4 --language ne --model medium --clips 5
 
 # Blurred-background style, or the animated "big word" captions
-videoclipper my_video.mp4 --language ne --vertical blur --caption-style bigword
+reelsmith my_video.mp4 --language ne --vertical blur --caption-style bigword
 
 # Follow the speaker's face (the crop PANS to follow them through the clip)
-videoclipper my_video.mp4 --language ne --vertical track
+reelsmith my_video.mp4 --language ne --vertical track
 ```
 
 **Face-tracking not framing well?** Some videos (screen-recording / b-roll heavy,
@@ -142,10 +147,10 @@ or no clear face) just can't be tracked. To see what the detector finds on a
 video, run the diagnostic — it prints stats and saves annotated frames:
 
 ```bash
-python -m videoclipper.reframe "my_video.mp4"
+python -m reelsmith.reframe "my_video.mp4"
 ```
 
-`videoclipper ...` and `python -m videoclipper ...` are exactly the same thing,
+`reelsmith ...` and `python -m reelsmith ...` are exactly the same thing,
 so use whichever you like.
 
 ### All options
@@ -173,7 +178,7 @@ If your video switches languages, use `--language mixed` (or pick **mixed** in
 the menu):
 
 ```bash
-videoclipper my_video.mp4 --language mixed
+reelsmith my_video.mp4 --language mixed
 ```
 
 It splits the audio into utterances and detects each one's language separately,
@@ -210,21 +215,21 @@ clips/
 You can also run a single step on its own, e.g. just transcribe:
 
 ```bash
-python -m videoclipper.transcribe my_video.mp4 --language ne --model small
+python -m reelsmith.transcribe my_video.mp4 --language ne --model small
 ```
 
 ---
 
 ## Changing the look of the captions
 
-Open `src/videoclipper/captions.py` and edit the `CAPTION_STYLE` dictionary near the top:
+Open `src/reelsmith/captions.py` and edit the `CAPTION_STYLE` dictionary near the top:
 font, font size, the normal and highlight colours, outline thickness, and how
 far up from the bottom the captions sit (`margin_vertical`), plus how many
 words appear at once (`words_per_line`).
 
 ## Changing which clips get picked
 
-Open `src/videoclipper/scoring.py`. The weights in `WEIGHTS` decide how much each factor
+Open `src/reelsmith/scoring.py`. The weights in `WEIGHTS` decide how much each factor
 (strong opening, question, emphasis words, pace, silence) matters. You can also
 add your own words to `EMPHATIC_WORDS`, `EMPHATIC_DEVANAGARI`, etc.
 
@@ -232,7 +237,7 @@ add your own words to `EMPHATIC_WORDS`, `EMPHATIC_DEVANAGARI`, etc.
 
 ## Ideas for improving the clip-picking later
 
-The scoring is kept in its own file (`src/videoclipper/scoring.py`) on purpose,
+The scoring is kept in its own file (`src/reelsmith/scoring.py`) on purpose,
 so you can make it smarter **without touching anything else** — just keep the
 same `score_segment(segment) -> (score, breakdown)` shape.
 
@@ -261,8 +266,8 @@ Ideas, roughly easiest → most advanced:
 
 - **"Could not download that video" / "Sign in to confirm you're not a bot"** →
   YouTube's anti-bot check (common after several downloads). Pass your browser's
-  cookies: `videoclipper "<url>" --cookies-from-browser firefox` (or `chrome`,
-  `brave`, `zen`, …). For the menu: `export VIDEOCLIPPER_COOKIES_BROWSER=firefox`
+  cookies: `reelsmith "<url>" --cookies-from-browser firefox` (or `chrome`,
+  `brave`, `zen`, …). For the menu: `export REELSMITH_COOKIES_BROWSER=firefox`
   first. YouTube also needs a JS runtime (`deno` or `node`) installed to solve
   its URL challenge — the tool enables the solver automatically.
   If downloads still fail, update yt-dlp: `pip install -U yt-dlp`.

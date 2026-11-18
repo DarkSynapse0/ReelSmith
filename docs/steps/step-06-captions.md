@@ -5,7 +5,7 @@ Burn in captions that highlight each word as it's spoken, using the word
 timestamps — and make sure **Nepali (Devanagari)** displays correctly.
 
 ## What was built
-- `src/videoclipper/captions.py` — generates an **ASS** subtitle file (Advanced SubStation
+- `src/reelsmith/captions.py` — generates an **ASS** subtitle file (Advanced SubStation
   Alpha). ASS, unlike plain SRT, can change the color of individual words at
   exact times and animate them.
   - All appearance settings live in one editable `CAPTION_STYLE` dict: `font`

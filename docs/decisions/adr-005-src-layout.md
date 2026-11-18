@@ -16,17 +16,17 @@ prototype, but it has problems as the project grows:
 ## Decision
 Reorganize into the **standard Python `src/` layout** and make the project
 **pip-installable**:
-- All code lives in a package: **`src/videoclipper/`**.
+- All code lives in a package: **`src/reelsmith/`**.
 - The old `clipper.py` becomes **`cli.py`**; `main()` is the entry point.
 - Internal imports are **package-relative** (`from . import utils`).
 - A **`pyproject.toml`** makes it installable with `pip install -e .` and
-  defines a real **`videoclipper`** console command, plus `python -m
-  videoclipper` via `__main__.py`.
+  defines a real **`reelsmith`** console command, plus `python -m
+  reelsmith` via `__main__.py`.
 
 ## Rationale
 - **No `sys.path` hacks.** Package-relative imports work no matter where you run
   from.
-- **A real command.** `videoclipper my_video.mp4` reads like a finished tool,
+- **A real command.** `reelsmith my_video.mp4` reads like a finished tool,
   not a loose script.
 - **The `src/` convention** prevents a common packaging trap: with the code
   under `src/`, your tests run against the *installed* package, so "it works on
@@ -38,7 +38,7 @@ Reorganize into the **standard Python `src/` layout** and make the project
   it's familiar to any contributor and plays nicely with tooling.
 
 ## Consequences
-- ✅ Installable, with `videoclipper` and `python -m videoclipper` entry points.
+- ✅ Installable, with `reelsmith` and `python -m reelsmith` entry points.
 - ✅ Robust imports; tests can import the package cleanly.
 - ✅ Clear separation of code, tests, docs, and generated output.
 - ⚠️ Slightly more setup than flat scripts: you now run `pip install -e .` once
@@ -50,6 +50,6 @@ Reorganize into the **standard Python `src/` layout** and make the project
 ## Alternatives considered
 - **Keep it flat / minimal tidy-up** — least disruptive, but keeps the fragile
   imports and gives no real command or install path.
-- **A package folder without `src/`** (`videoclipper/` at the root) — simpler,
+- **A package folder without `src/`** (`reelsmith/` at the root) — simpler,
   but loses the `src/` safety property above. We chose the full `src/` layout
   deliberately for a "proper product" structure.

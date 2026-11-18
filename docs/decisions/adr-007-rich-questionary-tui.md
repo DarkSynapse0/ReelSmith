@@ -1,7 +1,7 @@
 # ADR-007: Use rich + questionary for the interactive terminal UI
 
 **Status:** Accepted (v1.0.0)
-**Context:** The interactive mode (run `videoclipper` with no arguments) should
+**Context:** The interactive mode (run `reelsmith` with no arguments) should
 feel like a polished product — a banner, arrow-key option lists, a configuration
 summary, and live progress — not a wall of bare text prompts.
 

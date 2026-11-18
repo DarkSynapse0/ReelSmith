@@ -10,7 +10,7 @@ approach is to take the middle.
 
 Important clarification captured here because it confused us at one point:
 **Whisper does not do any cropping.** Whisper only listens to audio and produces
-text + timings. All cropping is pure FFmpeg geometry in `src/videoclipper/video.py`.
+text + timings. All cropping is pure FFmpeg geometry in `src/reelsmith/video.py`.
 
 ## Decision
 Ship a **fixed center crop** as the default (`crop` mode), plus a **blurred-fit**

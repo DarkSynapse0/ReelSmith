@@ -24,7 +24,7 @@ The rest of the menu is tracked in `ROADMAP.md`.
     - `\fscx140\fscy140\t(0,120,\fscx100\fscy100)` — start at 140 % size and
       shrink to 100 % over 120 ms → a snappy "pop".
     - Active word drawn in the highlight color.
-- `src/videoclipper/cli.py` gained `--caption-style {classic,bigword}` (default `classic`),
+- `src/reelsmith/cli.py` gained `--caption-style {classic,bigword}` (default `classic`),
   threaded into `generate_ass(..., animation=caption_style)`.
 - README updated with the new option.
 

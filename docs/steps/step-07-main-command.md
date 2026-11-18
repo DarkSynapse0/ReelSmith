@@ -5,7 +5,7 @@ Tie everything together into a single command, save finished clips in an output
 folder, and write a summary listing each clip's start, end, and score.
 
 ## What was built
-- `src/videoclipper/cli.py` — the entry point. `run(...)` executes the full pipeline:
+- `src/reelsmith/cli.py` — the entry point. `run(...)` executes the full pipeline:
   1. Checks (FFmpeg, file exists).
   2. Transcribe (Steps 1–2).
   3. Find best moments (Step 3).
@@ -35,13 +35,13 @@ folder, and write a summary listing each clip's start, end, and score.
 ## Bug fixed — NumPy float display
 The summary showed `np.float64(0.64)` instead of `0.64`, because faster-whisper
 returns NumPy floats for timestamps and they leaked through into the breakdown.
-Fixed at the source in `src/videoclipper/transcribe.py` by wrapping word/segment times in
+Fixed at the source in `src/reelsmith/transcribe.py` by wrapping word/segment times in
 `float(...)`. After the fix the summary reads `'silence': 0.64`.
 
 ## How it was tested
 Generated a ~53 s spoken video and ran:
 ```
-videoclipper long_sample.mp4 --language en --model tiny --clips 2 --vertical blur
+reelsmith long_sample.mp4 --language en --model tiny --clips 2 --vertical blur
 ```
 
 ## Result / what worked

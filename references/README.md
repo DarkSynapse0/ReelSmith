@@ -17,11 +17,11 @@ references/
 
 - To **clip** a reference video, just point the tool at it:
   ```bash
-  videoclipper references/to-clip/my_video.mp4 --language ne --caption-style hormozi
+  reelsmith references/to-clip/my_video.mp4 --language ne --caption-style hormozi
   ```
 - To **match a caption style** you see in a reference, tell me which one it is
   (or describe it) and I can map it to a `--caption-style` or tune the look in
-  `src/videoclipper/captions.py`.
+  `src/reelsmith/captions.py`.
 
 ## Notes
 - **Video files in this folder are ignored by git** (see `.gitignore`), so large

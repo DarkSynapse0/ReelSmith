@@ -5,7 +5,7 @@ Cut each chosen segment out of the source video, with a small buffer before and
 after so the first and last words aren't chopped off.
 
 ## What was built
-- `src/videoclipper/video.py` was started here (it later also holds Steps 5 and 6).
+- `src/reelsmith/video.py` was started here (it later also holds Steps 5 and 6).
 - `video.cut_clip(source, start, end, output, buffer=0.4, source_duration=None)`:
   - Subtracts `buffer` from the start and adds it to the end.
   - **Clamps** so it never asks for a negative start or goes past the end.

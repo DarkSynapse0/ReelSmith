@@ -46,7 +46,7 @@ See `docs/steps/step-16-dynamic-tracking.md` and
 
 > Note: **screen-recording / b-roll-heavy** videos have little or no face to
 > follow — `crop` or `blur` is the right choice there. The diagnostic
-> `python -m videoclipper.reframe "<video.mp4>"` reports which case a video is.
+> `python -m reelsmith.reframe "<video.mp4>"` reports which case a video is.
 > The diagnostic reads video directly, so it can't decode AV1/VP9 `.webm`
 > sources (the normal pipeline re-encodes clips to H.264 first, so this only
 > affects running the diagnostic on a raw download).
@@ -60,14 +60,14 @@ movement, or correlate with the audio) and track that person. Harder, but a big
 quality jump for multi-person videos.
 
 ### Smarter moment-picking via a local LLM
-The current `src/videoclipper/scoring.py` uses simple word-list heuristics. A small **local LLM
+The current `src/reelsmith/scoring.py` uses simple word-list heuristics. A small **local LLM
 (via [Ollama](https://ollama.com/))** could read each candidate segment and
 rate how "hooky" / self-contained it is, then blend that with the heuristics.
 Still 100 % free and local.
 
-**Why it's clean to add:** `src/videoclipper/scoring.py` is deliberately swappable — anything
+**Why it's clean to add:** `src/reelsmith/scoring.py` is deliberately swappable — anything
 that implements `score_segment(segment) -> (score, breakdown)` drops in without
-touching `src/videoclipper/moments.py`.
+touching `src/reelsmith/moments.py`.
 
 ### More animated caption effects
 We shipped `bigword`. The researched menu of additional styles (all doable with

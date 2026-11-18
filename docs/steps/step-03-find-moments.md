@@ -6,7 +6,7 @@ natural sentence boundaries, score them, and pick the top N — with the scoring
 kept in its own file so it can be upgraded later.
 
 ## What was built
-- `src/videoclipper/scoring.py` — five local, free heuristics, each returning roughly 0–1:
+- `src/reelsmith/scoring.py` — five local, free heuristics, each returning roughly 0–1:
   | Heuristic | Rewards |
   |-----------|---------|
   | `score_opening` | a hooky first word + short punchy opener |
@@ -17,7 +17,7 @@ kept in its own file so it can be upgraded later.
 
   These are combined with editable `WEIGHTS` into `score_segment(segment) ->
   (total, breakdown)`.
-- `src/videoclipper/moments.py`:
+- `src/reelsmith/moments.py`:
   - `build_candidates()` — a sliding window over sentences; joins consecutive
     transcript segments until the clip is within `MIN_SECONDS`–`MAX_SECONDS`
     (20–60), so clips never cut a word in half.
@@ -26,7 +26,7 @@ kept in its own file so it can be upgraded later.
 
 ## Key design decision
 Scoring sits behind **one function** (`score_segment`) and lives in its own
-file. `src/videoclipper/moments.py` doesn't care how the score is produced — so a smarter method
+file. `src/reelsmith/moments.py` doesn't care how the score is produced — so a smarter method
 (e.g. a local LLM) can be dropped in later without touching the selection logic.
 See `docs/decisions/` and `ROADMAP.md`.
 

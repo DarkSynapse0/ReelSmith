@@ -10,6 +10,17 @@ Every entry below was **built and tested** before moving to the next one.
 
 ---
 
+## [1.7.1] — 2026-11-18 — Renamed to ReelSmith
+
+- The project is now **ReelSmith**. The package is `src/reelsmith/`, the command
+  is **`reelsmith`** (and `python -m reelsmith`), the TUI banner reads
+  "REELSMITH", and the cookies env var is `REELSMITH_COOKIES_BROWSER`.
+- Added a proper product description to the README and package metadata.
+- Tested after the rename: `reelsmith --help`, `python -m reelsmith`, the banner,
+  a full end-to-end run (1080×1920 clip), and the unit tests all pass.
+
+---
+
 ## [1.7.0] — 2026-11-12 — `--model nepali`: a Nepali fine-tuned model (big accuracy win)
 
 The real fix for Nepali accuracy: a community Whisper **large-v3 fine-tuned for
@@ -23,7 +34,7 @@ already in CTranslate2 format), far more accurate than the stock models.
 - **Auto-selected for Nepali:** `--language ne` with no `--model` now uses
   `nepali` automatically (an explicit `--model` always wins; other languages
   still default to `small`). The menu also pre-selects `nepali` when you pick
-  Nepali. So `videoclipper my.mp4 --language ne` just does the right thing.
+  Nepali. So `reelsmith my.mp4 --language ne` just does the right thing.
 - Tested on the real Nepali clip: stock `small`/`large-v3` produced garbled
   Nepali; `--model nepali` produced accurate Nepali — it even got the speaker's
   full name right (मेरो नाम मनिस गिमिरे), plus "हाम्रो क्लिपिङ", "ओपन सोर्स",
@@ -190,9 +201,9 @@ after downloading several videos in a session.
 - **`--cookies-from-browser BROWSER`** option (firefox / chrome / chromium /
   brave / edge / zen / …). It passes your browser's YouTube cookies to yt-dlp,
   which gets past the anti-bot check. The flag sets a
-  `VIDEOCLIPPER_COOKIES_BROWSER` environment variable, so it also applies in the
-  interactive menu (`export VIDEOCLIPPER_COOKIES_BROWSER=firefox` then
-  `videoclipper`). Cookies are used for both the metadata lookup and the
+  `REELSMITH_COOKIES_BROWSER` environment variable, so it also applies in the
+  interactive menu (`export REELSMITH_COOKIES_BROWSER=firefox` then
+  `reelsmith`). Cookies are used for both the metadata lookup and the
   actual download.
 - **Zen browser support:** `zen` is handled specially (yt-dlp doesn't know it by
   name) — since Zen is Firefox-based, we auto-find its profile folder (native
@@ -233,7 +244,7 @@ the speaker**, after a report that in one clip the person was cut off.
     frames) where the old fixed crop would have cut them off; the full pipeline
     produced a 1080×1920 clip; the no-face video still fell back to centre; unit
     tests pass.
-- **Face diagnostic:** run `python -m videoclipper.reframe "<video.mp4>"` to see
+- **Face diagnostic:** run `python -m reelsmith.reframe "<video.mp4>"` to see
   what the detector finds — frames checked, % with a face, how much the face
   moves, how many big jumps (≈ cuts), and a plain verdict (few faces → use
   `crop`/`blur`; moves a lot → tracking helps; fairly still → fixed is fine).
@@ -348,7 +359,7 @@ mix together.
   - **URLs** are named by the video's **title + id**, e.g.
     `clips/Me_at_the_zoo_jNQXAC9IVRw/` — the id guarantees uniqueness even if two
     videos share a title.
-- New helpers in **`src/videoclipper/download.py`**: `CLIPS_ROOT = "clips"`,
+- New helpers in **`src/reelsmith/download.py`**: `CLIPS_ROOT = "clips"`,
   **`_sanitize_name(name)`** (strips illegal characters, turns spaces into
   underscores, caps length), **`url_video_name(url)`** (asks yt-dlp for
   `%(title)s` + `%(id)s` without downloading; falls back to a YouTube-id regex,
@@ -376,7 +387,7 @@ Whisper pass forcing everything into a single script.
 
 - Added **`transcribe.transcribe_audio_multilang(audio_path, model_size)`** and
   the helper **`transcribe._speech_chunks(audio)`** in
-  `src/videoclipper/transcribe.py`. The approach is **VAD-split → per-utterance
+  `src/reelsmith/transcribe.py`. The approach is **VAD-split → per-utterance
   auto-detect → stitch**:
   1. Split the audio into utterances with faster-whisper's voice-activity
      detector (`get_speech_timestamps` with tuned `VadOptions`:
@@ -401,7 +412,7 @@ Whisper pass forcing everything into a single script.
   fully validated**: VAD split the audio into **6 utterances**, each got its own
   detected language, the **English chunks transcribed perfectly**, and the
   timings were offset/stitched correctly (0:00 → 0:02 → 0:11 → 0:14). The full
-  pipeline via `videoclipper … --language mixed` produced a **1080×1920** clip,
+  pipeline via `reelsmith … --language mixed` produced a **1080×1920** clip,
   and the 3 unit tests still pass.
   - **Honest caveat:** the synthetic Hindi came from espeak's **robotic TTS**,
     which Whisper could **not** recognize as Hindi (it mis-detected those chunks
@@ -426,7 +437,7 @@ locally.
 Replaced the plain `input()` wizard from 0.6.0 with a **polished interactive
 terminal interface**.
 
-- Rewrote **`src/videoclipper/interactive.py`** to use two small, free,
+- Rewrote **`src/reelsmith/interactive.py`** to use two small, free,
   open-source libraries:
   - **rich** — the rounded **title banner**, the **📋 JOB CONFIGURATION** panel,
     a final **results panel** (each clip's time + score), and the clean
@@ -450,9 +461,9 @@ terminal interface**.
 - **`download.download_video(url, dir, quiet=False)`** gained a `quiet` option
   (passes `-q --no-warnings` and captures output) so yt-dlp's text doesn't break
   the progress bars.
-- **`src/videoclipper/cli.py`:** the no-video / `-i` path now simply calls
+- **`src/reelsmith/cli.py`:** the no-video / `-i` path now simply calls
   `interactive.launch()`.
-- **Version bumped to 1.0.0** in `src/videoclipper/__init__.py` and
+- **Version bumped to 1.0.0** in `src/reelsmith/__init__.py` and
   `pyproject.toml`. Added dependencies **`rich>=13.0.0`** and
   **`questionary>=2.0.0`** (in `pyproject.toml` and `requirements.txt`).
 - **Tested:** the banner and JOB CONFIGURATION panels render correctly;
@@ -473,7 +484,7 @@ terminal interface**.
 Made the tool usable **without memorising any command-line flags**: run it with
 no arguments and it asks you a short series of questions instead.
 
-- Added **`src/videoclipper/interactive.py`** — a friendly, dependency-free
+- Added **`src/reelsmith/interactive.py`** — a friendly, dependency-free
   wizard built on Python's built-in `input()`. It asks for the video (URL or
   local path), **language** (auto/ne/en/hi), **model size**
   (tiny/base/small/medium/large-v3), **number of clips**, **vertical style**
@@ -485,7 +496,7 @@ no arguments and it asks you a short series of questions instead.
     number, the value, or Enter), `_ask_yes_no`, `_ask_int`.
   - Entry point `collect_settings()` returns a settings dict, or `None` if the
     user cancels at the final confirmation.
-- **`src/videoclipper/cli.py`:** the `video` argument is now **optional**
+- **`src/reelsmith/cli.py`:** the `video` argument is now **optional**
   (`nargs="?"`). If **no video is given** *or* **`-i`/`--interactive`** is
   passed, the wizard runs and then calls `run(...)`. (`interactive` is imported
   lazily inside `main()`.)
@@ -497,9 +508,9 @@ no arguments and it asks you a short series of questions instead.
   → 1 clip → crop → captions yes/classic → advanced 8–14 s → start); it showed
   the numbered menus, printed a correct summary (`Captions: yes — classic`,
   `Clip length: 8–14 s`), ran the full pipeline, and produced a 1080×1920 clip.
-  Running `videoclipper` with **no arguments** launches the wizard.
+  Running `reelsmith` with **no arguments** launches the wizard.
   **`--no-captions`** produced a clip with no captions (no ASS/burn step). The 3
-  unit tests still pass, and `videoclipper --help` lists `-i/--interactive` and
+  unit tests still pass, and `reelsmith --help` lists `-i/--interactive` and
   `--no-captions`. See `docs/steps/step-12-interactive-cli.md`.
 
 ---
@@ -510,12 +521,12 @@ Added a smarter way to make clips vertical: instead of always cropping the
 middle, it can **find the speaker's face and crop around them**, so a person
 standing off to one side is no longer cut off.
 
-- Added **`src/videoclipper/reframe.py`** — uses OpenCV 5's **YuNet** face
+- Added **`src/reelsmith/reframe.py`** — uses OpenCV 5's **YuNet** face
   detector (`cv2.FaceDetectorYN`) to sample ~3 frames/sec of a clip, pick the
   largest face in each frame, take the **median** horizontal position, and
   compute a 9:16 crop box centered on the speaker (clamped to the frame edges).
   Returns `None` if no face is found.
-- Bundled the model **`src/videoclipper/models/face_detection_yunet.onnx`**
+- Bundled the model **`src/reelsmith/models/face_detection_yunet.onnx`**
   (~232 KB, from the OpenCV Zoo) directly in the package, so there is **no
   runtime download** — it works fully offline.
 - Added a new **`track`** mode to `video.make_vertical()`: crops a 9:16 region
@@ -542,7 +553,7 @@ standing off to one side is no longer cut off.
   the same video was **all black** (missed him). Fallback verified on a
   solid-color clip ("No face found — falling back to a center crop", still
   1080×1920). The 3 unit tests still pass, and a full
-  `videoclipper … --vertical track` run found a face in **42/42** frames and
+  `reelsmith … --vertical track` run found a face in **42/42** frames and
   output a 1080×1920 captioned clip. See `docs/steps/step-11-speaker-tracking.md`.
 
 ---
@@ -553,15 +564,15 @@ Reorganized the prototype into the standard Python **`src/` package layout** so
 it is a proper, installable product. No behavior changed — same pipeline, same
 options — only the structure and how you run it.
 
-- **Moved all modules into `src/videoclipper/`**: `transcribe.py`, `moments.py`,
+- **Moved all modules into `src/reelsmith/`**: `transcribe.py`, `moments.py`,
   `scoring.py`, `video.py`, `captions.py`, `download.py`, `utils.py`.
-- **Renamed `clipper.py` → `src/videoclipper/cli.py`** (its `main()` is the
+- **Renamed `clipper.py` → `src/reelsmith/cli.py`** (its `main()` is the
   entry point). Internal imports changed to package-relative
   (`from . import utils`, `from . import scoring`, …).
 - Added **`__init__.py`** (version `0.3.0`) and **`__main__.py`** (enables
-  `python -m videoclipper`).
+  `python -m reelsmith`).
 - Added **`pyproject.toml`** — installable with `pip install -e .`; defines the
-  **`videoclipper`** console command (`videoclipper.cli:main`); dependencies
+  **`reelsmith`** console command (`reelsmith.cli:main`); dependencies
   `faster-whisper` + `yt-dlp`; MIT license; Python ≥ 3.9.
 - Added **`LICENSE`** (MIT), **`.gitignore`** (venv, `__pycache__`, `output/`,
   `*_clips/`, `downloaded_clips/`, sample media), and **`samples/`** + `output/`
@@ -570,11 +581,11 @@ options — only the structure and how you run it.
   formatting; scoring returns `(float, dict)` and rewards a question;
   `pick_best` respects the 20–60 s limits and non-overlap). Runs via
   `python tests/test_basic.py` or `python -m pytest`.
-- **How to run now:** `videoclipper my_video.mp4 ...` or
-  `python -m videoclipper my_video.mp4 ...` (was `python clipper.py ...`).
-- **Tested:** `pip install -e .` succeeds; `videoclipper --help` and
-  `python -m videoclipper --help` both work; the 3 unit tests pass; and a full
-  end-to-end run via the `videoclipper` command produced a valid 1080×1920
+- **How to run now:** `reelsmith my_video.mp4 ...` or
+  `python -m reelsmith my_video.mp4 ...` (was `python clipper.py ...`).
+- **Tested:** `pip install -e .` succeeds; `reelsmith --help` and
+  `python -m reelsmith --help` both work; the 3 unit tests pass; and a full
+  end-to-end run via the `reelsmith` command produced a valid 1080×1920
   captioned clip. See `docs/steps/step-10-restructure.md` and
   `docs/decisions/adr-005-src-layout.md`.
 
@@ -595,11 +606,11 @@ clips with burned-in captions.
   proper `cp314` wheels installed cleanly.
 - **Tested:** `from faster_whisper import WhisperModel` imports successfully.
 
-### Step 2 — Transcribe (`src/videoclipper/transcribe.py`, `src/videoclipper/utils.py`)
-- Added `src/videoclipper/utils.py` with shared helpers: friendly errors (`fail`/`info`/`ok`),
+### Step 2 — Transcribe (`src/reelsmith/transcribe.py`, `src/reelsmith/utils.py`)
+- Added `src/reelsmith/utils.py` with shared helpers: friendly errors (`fail`/`info`/`ok`),
   `check_ffmpeg`, `check_file_exists`, `run_ffmpeg`, `ffprobe_duration`, and
   `seconds_to_timestamp`.
-- Added `src/videoclipper/transcribe.py`: extract audio with FFmpeg → transcribe with
+- Added `src/reelsmith/transcribe.py`: extract audio with FFmpeg → transcribe with
   faster-whisper (word-level timestamps on) → save JSON + SRT.
 - Options: `--language` (default `auto`, e.g. `ne`, `en`, `hi`) and `--model`
   (default `small`; `tiny`/`base`/`small`/`medium`/`large-v3`).
@@ -614,28 +625,28 @@ clips with burned-in captions.
 - **Tested:** transcribed a generated 14-second spoken clip; confirmed correct
   text, **per-word start/end times** in the JSON, and a valid `.srt`.
 
-### Step 3 — Find best moments (`src/videoclipper/moments.py`, `src/videoclipper/scoring.py`)
-- Added `src/videoclipper/scoring.py` — five local heuristics, each 0–1, combined with editable
+### Step 3 — Find best moments (`src/reelsmith/moments.py`, `src/reelsmith/scoring.py`)
+- Added `src/reelsmith/scoring.py` — five local heuristics, each 0–1, combined with editable
   `WEIGHTS`: strong opening, question, emphasis words, speaking pace, low
   silence. Includes English **and** Nepali/Devanagari word lists.
-- Added `src/videoclipper/moments.py` — builds candidate clips by joining whole sentences until
+- Added `src/reelsmith/moments.py` — builds candidate clips by joining whole sentences until
   they are 20–60 s (`MIN_SECONDS`/`MAX_SECONDS`), scores each, and greedily
   picks the top N **non-overlapping** moments in time order.
 - **Design decision:** scoring lives behind one function
   `score_segment(segment) -> (score, breakdown)` so it can be swapped for a
-  smarter method later without touching `src/videoclipper/moments.py`.
+  smarter method later without touching `src/reelsmith/moments.py`.
 - **Tested:** on the real transcript (small limits) and on a synthetic
   2-minute transcript — verified clips are all 20–60 s, non-overlapping,
   chronological, and that hooky/question/emphatic lines outscore filler.
 
-### Step 4 — Cut clips (`src/videoclipper/video.py`)
+### Step 4 — Cut clips (`src/reelsmith/video.py`)
 - Added `video.cut_clip()` — cuts a segment with a configurable safety
   **buffer** (`DEFAULT_BUFFER = 0.4 s`) before/after so words aren't chopped,
   clamps to the video bounds, and re-encodes for a frame-accurate cut.
 - **Tested:** requested 2.0–8.0 s → correctly expanded to 1.6–8.4 s → output
   measured exactly **6.8 s**.
 
-### Step 5 — Vertical 9:16 (`src/videoclipper/video.py`)
+### Step 5 — Vertical 9:16 (`src/reelsmith/video.py`)
 - Added `video.make_vertical()` with two modes:
   - `crop` (default) — zoom + center-crop, no bars.
   - `blur` — fit whole frame + blurred, zoomed background (nothing cut off).
@@ -643,8 +654,8 @@ clips with burned-in captions.
 - **Tested:** both modes output exactly 1080×1920; visually confirmed the
   blurred-background composition on a test pattern.
 
-### Step 6 — Word-by-word captions (`src/videoclipper/captions.py`, `src/videoclipper/video.py`)
-- Added `src/videoclipper/captions.py` — generates an **ASS** subtitle file with per-word
+### Step 6 — Word-by-word captions (`src/reelsmith/captions.py`, `src/reelsmith/video.py`)
+- Added `src/reelsmith/captions.py` — generates an **ASS** subtitle file with per-word
   highlighting. All appearance settings live in one editable `CAPTION_STYLE`
   dict (font, size, colors, outline, shadow, position, words-per-line).
 - Default font **Noto Sans Devanagari** (supports Nepali).
@@ -653,8 +664,8 @@ clips with burned-in captions.
   highlighted in yellow with correct timing, and that Devanagari renders
   correctly — including the complex stacked conjunct in **महत्त्वपूर्ण**.
 
-### Step 7 — One command (`src/videoclipper/cli.py`, `README.md`)
-- Added `src/videoclipper/cli.py` — the single entry point that runs the whole pipeline:
+### Step 7 — One command (`src/reelsmith/cli.py`, `README.md`)
+- Added `src/reelsmith/cli.py` — the single entry point that runs the whole pipeline:
   transcribe → find moments → (cut → vertical → captions) per clip → summary.
 - Saves finished clips as `clip_01.mp4`, `clip_02.mp4`, … plus the transcript
   JSON/SRT and a **`summary.txt` + `summary.json`** listing each clip's start,
@@ -664,17 +675,17 @@ clips with burned-in captions.
 - Wrote the first `README.md` (setup, examples, improvement ideas).
 - **Bug fixed:** the summary showed `np.float64(0.64)` instead of `0.64`
   because faster-whisper returns NumPy floats for timestamps. Fixed at the
-  source in `src/videoclipper/transcribe.py` by wrapping timings in `float(...)`.
+  source in `src/reelsmith/transcribe.py` by wrapping timings in `float(...)`.
 - **Tested:** full run on a generated ~53 s spoken video with `--vertical
   blur --clips 2` produced two valid 1080×1920 captioned clips plus summaries;
   the `work/` dir was auto-cleaned.
 
 ---
 
-## [0.2.0] — 2026-11-12 — Clip straight from a URL (`src/videoclipper/download.py`)
+## [0.2.0] — 2026-11-12 — Clip straight from a URL (`src/reelsmith/download.py`)
 
-- Added `src/videoclipper/download.py` using **yt-dlp** (free, open source, local — no account
-  or API key). `src/videoclipper/cli.py` now accepts either a local file path **or** a URL
+- Added `src/reelsmith/download.py` using **yt-dlp** (free, open source, local — no account
+  or API key). `src/reelsmith/cli.py` now accepts either a local file path **or** a URL
   (YouTube, Shorts, Reels, and many other sites) as its `video` argument.
 - Added a **Step 0: Download** stage; the input is auto-detected as a URL when
   it starts with `http://`/`https://`.
@@ -690,7 +701,7 @@ clips with burned-in captions.
 
 ---
 
-## [0.3.0] — 2026-11-12 — Animated captions: `bigword` style (`src/videoclipper/captions.py`, `src/videoclipper/cli.py`)
+## [0.3.0] — 2026-11-12 — Animated captions: `bigword` style (`src/reelsmith/captions.py`, `src/reelsmith/cli.py`)
 
 - Added an `animation` parameter to `captions.generate_ass` and split event
   building into `_events_classic` and `_events_bigword`.
@@ -698,7 +709,7 @@ clips with burned-in captions.
   time, popping in with a quick scale bounce (starts at 140 % size, snaps to
   100 % over 120 ms) using standard ASS tags (`\an5`, `\pos`, `\fs`, `\fscx`,
   `\fscy`, `\t`). The original `classic` style is unchanged.
-- Added `--caption-style {classic,bigword}` to `src/videoclipper/cli.py`; updated README.
+- Added `--caption-style {classic,bigword}` to `src/reelsmith/cli.py`; updated README.
 - **Tested:** rendered a `bigword` clip and confirmed a single large word
   appears centered in the highlight color (the pop is motion, visible on play).
 

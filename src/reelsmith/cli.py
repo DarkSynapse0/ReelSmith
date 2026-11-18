@@ -264,7 +264,7 @@ def main():
     # If the user chose a browser for cookies, stash it where the downloader
     # looks (an env var), so it applies in both flag mode and the menu.
     if args.cookies_browser:
-        os.environ["VIDEOCLIPPER_COOKIES_BROWSER"] = args.cookies_browser
+        os.environ["REELSMITH_COOKIES_BROWSER"] = args.cookies_browser
 
     # No video given, or --interactive asked for → run the friendly menu
     # (fancy arrow-key UI in a real terminal; simple prompts if piped).

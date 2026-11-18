@@ -14,7 +14,7 @@ Both work because each check is a function named test_... that just uses
 core logic before you spend time running a full video through the tool.
 """
 
-from videoclipper import utils, scoring, moments
+from reelsmith import utils, scoring, moments
 
 
 def test_timestamp_formatting():

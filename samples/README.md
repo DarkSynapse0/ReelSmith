@@ -10,5 +10,5 @@ Example:
 
 ```bash
 # drop a file here, then:
-videoclipper samples/my_test.mp4 --language en --clips 3
+reelsmith samples/my_test.mp4 --language en --clips 3
 ```

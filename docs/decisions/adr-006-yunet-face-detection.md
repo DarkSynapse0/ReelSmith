@@ -23,7 +23,7 @@ Haar cascade XML files. So the "easy, zero-download" Haar path isn't available.
 Use OpenCV 5's modern **YuNet** face detector (`cv2.FaceDetectorYN`) and
 **bundle its model file** inside the package.
 - Model: `face_detection_yunet.onnx` (~232 KB) from the OpenCV Zoo, stored at
-  `src/videoclipper/models/` and shipped via `[tool.setuptools.package-data]`.
+  `src/reelsmith/models/` and shipped via `[tool.setuptools.package-data]`.
 - Detection strategy in `reframe.py`: **sample ~3 frames/sec** (not every
   frame), take the **largest face** per frame, and use the **median** horizontal
   position to drive a single **fixed crop** for the whole clip.

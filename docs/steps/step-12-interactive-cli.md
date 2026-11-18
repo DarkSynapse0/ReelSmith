@@ -7,7 +7,7 @@ answering a few simple questions instead of memorising options — and a toggle 
 **skip captions** when you don't want them.
 
 ## What was built
-- **`src/videoclipper/interactive.py`** — a friendly wizard built only on
+- **`src/reelsmith/interactive.py`** — a friendly wizard built only on
   Python's built-in `input()` (no extra libraries). It asks, in order, for:
   1. the **video** (a URL or a local file path),
   2. the **language** (auto / ne / en / hi),
@@ -24,7 +24,7 @@ answering a few simple questions instead of memorising options — and a toggle 
   - Helper functions: `_ask_text`, `_ask_choice`, `_ask_yes_no`, `_ask_int`.
   - Entry point `collect_settings()` returns a settings dict, or `None` if the
     user cancels at the final confirmation.
-- **`src/videoclipper/cli.py`:**
+- **`src/reelsmith/cli.py`:**
   - The `video` argument is now **optional** (`nargs="?"`). If **no video is
     given**, or **`-i`/`--interactive`** is passed, the wizard runs and then
     calls `run(...)`. `interactive` is imported **lazily** inside `main()`.
@@ -39,17 +39,17 @@ answering a few simple questions instead of memorising options — and a toggle 
    start. It showed the numbered menus, printed a correct summary
    (`Captions: yes — classic`, `Clip length: 8–14 s`), ran the full pipeline, and
    produced a **1080×1920** clip.
-2. **No-argument launch.** Running `videoclipper` with no arguments correctly
+2. **No-argument launch.** Running `reelsmith` with no arguments correctly
    opens the wizard (the `video` argument defaults to `None`).
-3. **Captions toggle.** `videoclipper … --no-captions` produced a clip with **no
+3. **Captions toggle.** `reelsmith … --no-captions` produced a clip with **no
    captions** — the vertical clip was moved straight to the final output with no
    ASS/burn step.
-4. **Regression.** The 3 unit tests still pass, and `videoclipper --help` lists
+4. **Regression.** The 3 unit tests still pass, and `reelsmith --help` lists
    `-i/--interactive` and `--no-captions` and notes that leaving the video out
    launches the interactive menu.
 
 ## Result / what worked
-You can now run the tool with **zero flags** — just `videoclipper` — and be
+You can now run the tool with **zero flags** — just `reelsmith` — and be
 guided through every choice, or skip captions entirely when you only want the
 cut/vertical clips. Both front-ends (flags and menu) funnel into the exact same
 `run(...)` pipeline. ✅

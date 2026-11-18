@@ -4,7 +4,7 @@ interactive.py
 The polished, menu-driven interface. Instead of memorising command-line
 flags, you run the command with no arguments:
 
-    videoclipper
+    reelsmith
 
 and answer a few questions with the arrow keys, then watch clean progress
 bars as it works.
@@ -122,7 +122,7 @@ def _is_tty():
 
 def _banner():
     """Draw the rounded title box at the top."""
-    title = (f"[bold white]🎬  VIDEOCLIPPER v{__version__}[/]  "
+    title = (f"[bold white]🎬  REELSMITH v{__version__}[/]  "
              f"[dim]•[/]  [cyan]AI-Powered Vertical Clip Generator[/]")
     console.print()
     console.print(Panel(title, box=box.ROUNDED, border_style="cyan",
@@ -267,7 +267,7 @@ def _equivalent_command(s):
     Build the exact command-line that reproduces these menu choices — so the
     user can copy it and skip the menu next time.
     """
-    parts = ["videoclipper", f'"{s["video_path"]}"',
+    parts = ["reelsmith", f'"{s["video_path"]}"',
              "--language", s["language"],
              "--model", s["model_size"],
              "--clips", str(s["num_clips"]),

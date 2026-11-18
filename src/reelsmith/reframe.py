@@ -294,7 +294,7 @@ def diagnose(video_path, out_dir="debug_faces", sample_fps=3):
     detection problem (few faces) or a framing problem (faces move / many
     shots), so we can fix the right thing.
 
-    Run it with:  python -m videoclipper.reframe <video>
+    Run it with:  python -m reelsmith.reframe <video>
     """
     if not os.path.isfile(_MODEL_PATH):
         utils.fail(f"Face model missing: {_MODEL_PATH}")

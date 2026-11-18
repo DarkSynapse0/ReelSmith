@@ -60,13 +60,13 @@ def _resolve_browser(browser):
 def _cookie_args():
     """
     If the user has told us which browser to borrow YouTube cookies from
-    (via the VIDEOCLIPPER_COOKIES_BROWSER environment variable, set by the
+    (via the REELSMITH_COOKIES_BROWSER environment variable, set by the
     --cookies-from-browser option), return the yt-dlp arguments for it.
 
     This is what gets past YouTube's "Sign in to confirm you're not a bot"
     block, which can appear after downloading several videos.
     """
-    browser = os.environ.get("VIDEOCLIPPER_COOKIES_BROWSER", "").strip()
+    browser = os.environ.get("REELSMITH_COOKIES_BROWSER", "").strip()
     return ["--cookies-from-browser", _resolve_browser(browser)] if browser else []
 
 
